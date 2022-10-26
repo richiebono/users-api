@@ -16,6 +16,7 @@ describe("UserService", () => {
   var userListMocked = [userMocked] as User[];
   let module: TestingModule;
   beforeEach(async () => {
+    
     module = await userTestModule.compile();
     userRepository = createMock<Model<UserDocument>>({
       find: jest.fn().mockResolvedValueOnce(Promise.resolve(userListMocked)),
@@ -26,6 +27,8 @@ describe("UserService", () => {
       remove: jest.fn()
     });
     service = new UserService(userRepository);
+    
+    
   });
 
   it("should be defined", () => {
