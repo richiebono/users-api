@@ -17,8 +17,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'      
       - run: npm ci
       - run: npm run build
-      - run: CI=true npm run test -- --detectOpenHandles
+      - run: npm run test -- --detectOpenHandles --exit
       - run: npm publish
         env:
-          CI: true
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
