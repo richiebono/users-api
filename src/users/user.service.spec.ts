@@ -5,6 +5,7 @@ import { userTestModule } from "./user.test.module";
 import { createMock } from '@golevelup/ts-jest';
 import { Model, Types } from 'mongoose';
 import { UserDto } from "./dto/user.dto";
+import { closeInMongodConnection } from '../utils/test/mongo/mongoose.test.module';
 
 describe("UserService", () => {
   let service: UserService;
@@ -13,8 +14,9 @@ describe("UserService", () => {
   var idMocked = new Types.ObjectId().toString();
   var userMocked = createMock<User>({id: idMocked, name: "someName", password: "somePassword", email: "someEmail"}) as User;
   var userListMocked = [userMocked] as User[];
+  let module: TestingModule;
   beforeEach(async () => {
-    const module: TestingModule = await userTestModule.compile();
+    module = await userTestModule.compile();
     userRepository = createMock<Model<UserDocument>>({
       find: jest.fn().mockResolvedValueOnce(Promise.resolve(userListMocked)),
       findOne: jest.fn().mockResolvedValueOnce(Promise.resolve(userMocked)),
@@ -57,5 +59,10 @@ describe("UserService", () => {
   it("Shoud delete user.", async () => {
     expect(await service.deleteUser(idMocked));
   });
+
+  afterAll(async () => {
+    await closeInMongodConnection();    
+    await module.close();
+  })
 
 });

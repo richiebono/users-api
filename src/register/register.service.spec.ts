@@ -5,9 +5,10 @@ import { registerTestModule } from './register.test.module';
 
 describe('RegisterService', () => {
   let service: RegisterService;
+  let module: TestingModule;
 
   beforeEach(async () => {
-    const module: TestingModule = await registerTestModule.compile();
+    module = await registerTestModule.compile();
     service = module.get<RegisterService>(RegisterService);
   });
 
@@ -16,6 +17,8 @@ describe('RegisterService', () => {
   });
 
   afterAll(async () => {
-    await closeInMongodConnection();
+    await closeInMongodConnection();    
+    await module.close();
   });
+
 });
