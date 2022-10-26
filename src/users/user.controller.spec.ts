@@ -1,12 +1,10 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { mockResponseObject } from "../utils/test/mock/mock.response";
 import { User } from "./schemas/user.model";
 import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
-import { userTestModule } from "./user.test.module";
 import { createMock } from '@golevelup/ts-jest';
 import { Types } from "mongoose";
-import { NotFoundException } from "@nestjs/common";
+import { userTestModule } from "./user.test.module";
 
 describe("Users Controller", () => {
   let controller: UserController;
